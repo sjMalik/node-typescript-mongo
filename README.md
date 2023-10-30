@@ -1,4 +1,4 @@
-# Node Typescript Mongo Tutorial
+# Typescript, Node, Express & MongoDB Tutorial
 
 ## Introduction of Typescript
 

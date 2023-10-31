@@ -1,16 +1,16 @@
-import { MongoClient } from 'mongodb';
+import { connect, connection } from 'mongoose';
 
 export default class MongoConnection {
-    private mongoClient;
+    private mongoURL;
 
     constructor(mongoUrl: string) {
-        this.mongoClient = new MongoClient(mongoUrl);
+        this.mongoURL = mongoUrl;
     }
 
     public async connectToDatabase(): Promise<void> {
         try {
             // Connect to the MongoDB server
-            await this.mongoClient.connect();
+            await connect(this.mongoURL);
         } catch (error) {
             throw error;
         }
@@ -18,7 +18,7 @@ export default class MongoConnection {
 
     public async closeDatabaseConnection(): Promise<void> {
         try {
-            await this.mongoClient.close();
+            await connection.close();
         } catch (error) {
             throw error;
         }

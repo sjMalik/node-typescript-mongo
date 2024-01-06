@@ -1,3 +1,19 @@
+# Clone the repository
+```
+git clone https://github.com/sjMalik/node-typescript-mongo.git
+```
+
+# Install Dependencies
+```
+cd node-typescript-mongo
+npm install
+```
+
+# Run The application
+```
+npm start
+```
+
 # Typescript, Node, Express & MongoDB Tutorial
 
 ## Introduction of Typescript

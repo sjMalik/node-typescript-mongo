@@ -9,6 +9,11 @@ cd node-typescript-mongo
 npm install
 ```
 
+# Build The application
+```
+npm run build
+```
+
 # Run The application
 ```
 npm start

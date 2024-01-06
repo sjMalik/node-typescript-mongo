@@ -1,10 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { ApplicationError } from './errors/application-error';
 import { router } from './routes';
+import cors from 'cors';
 
 export const app = express();
 
 app.use(express.json());
+// Enable CORS for all routes
+app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.use('/api', router);

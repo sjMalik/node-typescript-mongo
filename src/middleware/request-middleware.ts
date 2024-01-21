@@ -34,6 +34,7 @@ export const relogRequestHandler = (
 ): RequestHandler => async (req: Request, res: Response, next: NextFunction) => {
     logger.log({
         level: 'info',
+        method: req.method,
         message: req.url
     });
 

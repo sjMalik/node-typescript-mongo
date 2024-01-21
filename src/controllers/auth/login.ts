@@ -12,7 +12,8 @@ const loginWrapper: RequestHandler = async (req, res) => {
         const token = jwt.sign(
             {
                 email: user.email,
-                userId: user._id
+                userId: user._id,
+                name: `${user.firstName} ${user.lastName}`
             },
             process.env.SECRET,
             {

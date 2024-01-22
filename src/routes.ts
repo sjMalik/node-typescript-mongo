@@ -14,8 +14,8 @@ router.post('/register', AuthController.register);
 router.get('/user/all', UserController.all);
 
 // Todo Routes
-router.get('/todos', TodoController.todos);
-router.post('/todos', TodoController.createTodo);
-router.get('/todos/:id', TodoController.todo);
+router.post('/todos', TodoController.newTodo);
+router.get('/todos', TodoController.listTodo);
+router.get('/todos/:id', TodoController.getTodo);
 router.put('/todos/:id', TodoController.updateTodo);
 router.delete('/todos/:id', TodoController.deleteTodo);

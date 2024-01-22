@@ -1,1 +1,1 @@
-export { todo, todos, createTodo, updateTodo, deleteTodo } from './todo-crud'
+export { newTodo, listTodo, getTodo, updateTodo, deleteTodo } from './todo-crud';

@@ -1,0 +1,251 @@
+openapi: 3.0.2 
+info: 
+version: 4.4.0 
+title: Todo CRUD APIs with Authentication
+description: <desc> 
+
+servers: 
+  - url: http://localhost:3001
+  
+paths: # This is a endpoint path.
+    /api/register:
+      post:
+        tags:
+        - Auth
+        summary: Registration
+        description: "Create a account in the application"
+        requestBody: 
+          description: 'Payoad to Registration' 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Registration_Post_Payload'   
+        responses: 
+          200: 
+            description: Successful response 
+          201: 
+            description: Successfully created a resource 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          500: 
+            description: 'Internal Server Error' 
+    /api/login:
+      post:
+        tags:
+        - Auth
+        summary: Login to the system
+        description: "Todo crud apis"
+        requestBody: 
+          description: 'Payoad to login' 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Login_Post_Payload'   
+        responses: 
+          200: 
+            description: Successful response 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          500: 
+            description: 'Internal Server Error' 
+    /api/todos:
+      post:
+        tags:
+        - Todos
+        summary: Create a new todo item
+        description: "Create a new todo item"
+        requestBody: 
+          description: 'Payoad to create a new todo' 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Todo_Post_Payload' 
+        security: 
+          - bearerAuth: [] 
+        responses: 
+          200: 
+            description: Successful response 
+            # content: 
+            #   application/json: 
+            #     schema: 
+            #       $ref: '#/components/schemas/Todo_Response' 
+          201: 
+            description: Successfully created a resource 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          401: 
+            description: 'Unauthorized' 
+          500: 
+            description: 'Internal Server Error' 
+
+      get:
+        tags:
+        - Todos
+        summary: Get the list of Todos
+        description: "Get the list of Todos"
+        security: 
+          - bearerAuth: [] 
+        responses: 
+          200: 
+            description: Successful response 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          401: 
+            description: 'Unauthorized' 
+          500: 
+            description: 'Internal Server Error' 
+
+      
+    /api/todos/{id}:
+      get:
+        tags:
+        - Todos
+        summary: Get Todo by ID
+        description: " Get Todo by ID"
+        parameters:
+          - name: id
+            in: path
+            schema:
+              type: string
+        security: 
+          - bearerAuth: [] 
+        responses: 
+          200: 
+            description: Successful response 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          401: 
+            description: 'Unauthorized' 
+          500: 
+            description: 'Internal Server Error' 
+      put:
+        tags:
+        - Todos
+        summary: Update Todo
+        description: " Update Todo by ID"
+        parameters:
+          - name: id
+            in: path
+            schema:
+              type: string
+        requestBody: 
+          description: 'Payoad to update a todo' 
+          content: 
+            application/json: 
+              schema: 
+                $ref: '#/components/schemas/Todo_Post_Payload' 
+        security: 
+          - bearerAuth: [] 
+        responses: 
+          200: 
+            description: Successful response 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          401: 
+            description: 'Unauthorized' 
+          500: 
+            description: 'Internal Server Error' 
+      delete:
+        tags:
+        - Todos
+        summary: Delete Todo
+        description: "Delete Todo by ID"
+        parameters:
+          - name: id
+            in: path
+            schema:
+              type: string
+        security: 
+          - bearerAuth: [] 
+        responses: 
+          200: 
+            description: Successful response 
+          400: 
+            description: 'Invalid or Missing Required Payload' 
+          401: 
+            description: 'Unauthorized' 
+          500: 
+            description: 'Internal Server Error'
+
+      
+components: 
+  securitySchemes: 
+    bearerAuth: # arbitrary name for the security scheme 
+      type: http 
+      scheme: bearer 
+      bearerFormat: JWT 
+  schemas: 
+    Todo_Post_Payload: 
+      title: Todo_Post_Payload 
+      type: object 
+      properties: 
+        title: 
+          type: string 
+          example: 'task101' 
+    Login_Post_Payload:
+      title: Login_Post_Payload 
+      type: object 
+      properties: 
+        email: 
+          type: string 
+          example: 'john@doe.com' 
+        password: 
+          type: string 
+          example: 'secret' 
+    Registration_Post_Payload:
+      title: Registration_Post_Payload 
+      type: object 
+      properties: 
+        email: 
+          type: string 
+          example: 'john@doe.com' 
+        password: 
+          type: string 
+          example: 'secret' 
+        firstName: 
+          type: string 
+          example: 'John' 
+        lastName: 
+          type: string 
+          example: 'Doe' 
+    # Todo_Response: 
+    #   title: Todo_Response 
+    #   type: object 
+    #   properties: 
+    #     data: 
+    #       $ref: '#/components/schemas/List_Of_Todo' 
+    # List_Of_Todo: 
+    #   title: List_Of_Todo 
+    #   type: array 
+    #   items: 
+    #     $ref: '#/components/schemas/Todo' 
+    # Todo: 
+    #   title: Todo 
+    #   type: object 
+    #   properties: 
+    #     title: 
+    #     type: string 
+    #     example: "Task101" 
+    # Page: 
+    #   title: PaginationInfo 
+    #   type: object 
+    #   properties: 
+    #     current: 
+    #       description: Current page number. 
+    #       type: integer 
+    #       example: 2 
+    #     size: 
+    #       description: Default page size. 
+    #       type: integer 
+    #       example: 100 
+    #     total: 
+    #       description: total number of results from query. 
+    #       type: integer 
+    #       example: 550 
+security: 
+  - bearerAuth: [] # <-- use the same name here 
+tags: 
+  - name: Auth 
+    description: Authentication APIs
+  - name: Todos 
+    description: CRUD APIs of Todo

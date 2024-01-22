@@ -88,3 +88,20 @@ node-typescript-mongo/
   npm i express dotenv
   npm i @types/express -D
   ```
+
+## Add Swagger
+**Install Dependencies**
+
+```
+npm i swagger-ui-express
+npm i yamljs
+```
+**Add in app.ts**
+
+```
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerJsDocs = YAML.load("./api.yaml");
+
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerJsDocs));
+```

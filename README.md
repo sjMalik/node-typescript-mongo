@@ -47,7 +47,8 @@ node-typescript-mongo/
 |   ├── mongo-connection.ts           # MongoDB connection setup
 |   ├── logger.ts                     # Logging utility or configuration
 |   ├── models/                       # Directory for data models
-|   |   ├── user.ts                   # Data model for users (and other model files)
+|   |   ├── user.ts                   # Data model for users
+|   |   ├── todo.ts                   # Data model for todos
 |   |   └── ...
 |   ├── controllers/                  # Directory for route controllers
 |   |   ├── auth/                     # Controllers for authentication routes
@@ -57,6 +58,9 @@ node-typescript-mongo/
 |   |   ├── user/                     # Controllers for user-related routes
 |   |   |   ├── index.ts              # Export point for user controllers
 |   |   |   ├── all.ts                # Controller for fetching all users
+|   |   ├── todo/                     # Controllers for todo-related routes
+|   |   |   ├── index.ts              # Export point for todo controllers
+|   |   |   ├── todo-crud.ts          # Controller for todo CRUD APIs
 |   |   └── ...
 |   ├── errors/                       # Error handling and custom error classes
 |   |   ├── index.ts                  # Export point for error classes

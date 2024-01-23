@@ -1,0 +1,210 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: Todo CRUD APIs with Authentication & Authorization
+  description: Todo CRUD APIs with Authentication & Authorization
+
+servers:
+  - url: http://localhost:3001
+
+paths:
+  /api/register:
+    post:
+      tags:
+      - Auth
+      summary: Registration
+      description: "Create account in application"
+      requestBody:
+        description: 'Payload for registration'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Registration_Payload'
+      responses:
+        200:
+          description: 'Regitration Successfull'
+        201:
+          description: 'User Created'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+
+  /api/login:
+    post:
+      tags:
+      - Auth
+      summary: Login
+      description: "User Authentication"
+      requestBody:
+        description: 'Payload for login'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login_Payload'
+      responses:
+        200:
+          description: 'Login Successfull'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Internal Server Error'
+
+  /api/todos:
+    post:
+      tags:
+      - Todo
+      summary: Create Todo
+      description: "Authorized user can create todo item"
+      requestBody:
+        description: 'Payload for creating todo'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo_Payload'
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Todo Create Successfull'
+        201:
+          description: 'Todo Created'
+        400:
+          description: 'Bad Request'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+    get:
+      tags:
+      - Todo
+      summary: Get Todo List
+      description: "Authorized user can listing todo item"
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Todo Create Successfull'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+
+  /api/todos/{id}:
+    put:
+      tags:
+      - Todo
+      summary: Update Todo
+      description: "Authorized user can update todo item"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      requestBody:
+        description: 'Payload for updating todo'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Todo_Payload'
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Todo Update Successfull'
+        400:
+          description: 'Bad Request'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+    get:
+      tags:
+      - Todo
+      summary: Get Todo Item by Id
+      description: "Authorized user can get todo item"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Todo item Successfully fetched'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+    delete:
+      tags:
+      - Todo
+      summary: Delete Todo Item by Id
+      description: "Authorized user can delete todo item"
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        200:
+          description: 'Todo item Delete Success'
+        401:
+          description: 'Unauthorized'
+        500:
+          description: 'Internal Server Error'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Registration_Payload:
+      title: Registration_Payload
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'john@doe.com'
+        password:
+          type: string
+          example: 'secret'
+        firstName:
+          type: string,
+          example: 'John'
+        lastName:
+          type: string,
+          example: 'Doe'
+    
+    Login_Payload:
+      title: Login_Payload
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'john@doe.com'
+        password:
+          type: string
+          example: 'secret'
+
+    Todo_Payload:
+      title: Todo_Payload
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'My Sample Todo101'
+
+security:
+  - bearerAuth: []
+
+tags:
+  - name: Auth
+    description: Authentication APIs
+  - name: Todo
+    description: Todo CRUD APIs

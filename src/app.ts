@@ -1,7 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import * as yamljs from 'yamljs';
+import * as swaggerUi from 'swagger-ui-express';
+
 import { ApplicationError } from './errors/application-error';
 import { router } from './routes';
-import cors from 'cors';
+
+const swaggerJsDocs = yamljs.load('./src/api.yaml');
 
 export const app = express();
 
@@ -11,6 +16,7 @@ app.use(cors());
 app.set('port', process.env.PORT || 3000);
 
 app.use('/api', router);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsDocs));
 
 app.use((err: ApplicationError, req: Request, res: Response, next: NextFunction) => {
     if (res.headersSent) {

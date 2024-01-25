@@ -106,7 +106,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Todo_Payload'
+              $ref: '#/components/schemas/Todo_Update_Payload'
       security:
         - bearerAuth: []
       responses:
@@ -199,6 +199,17 @@ components:
         title:
           type: string
           example: 'My Sample Todo101'
+
+    Todo_Update_Payload:
+      title: Todo_Payload
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'My Sample Todo101'
+        isDone:
+          type: boolean
+          example: "false"
 
 security:
   - bearerAuth: []

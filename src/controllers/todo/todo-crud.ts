@@ -4,48 +4,69 @@ import { relogRequestHandler } from '../../middleware/request-middleware';
 import { Todo } from '../../models/todo';
 
 export const addOrUpdateTodoSchema = Joi.object().keys({
-    title: Joi.string().required()
+    title: Joi.string().required(),
+    isDone: Joi.binary().optional()
 });
 
 const addTodoWrapper: RequestHandler = async (req, res) => {
-    const { title } = req.body;
+    try {
+        const { title } = req.body;
 
-    const todo = new Todo({
-        title
-    });
+        const todo = new Todo({
+            title
+        });
 
-    await todo.save();
+        await todo.save();
 
-    res.status(201).json(todo.toJSON());
+        res.status(201).json(todo.toJSON());
+    } catch (e) {
+        res.status(500).end()
+    }
 };
 
 const listTodoWrapper: RequestHandler = async (req, res) => {
-    const todos = await Todo.find();
-    res.send({ todos });
+    try {
+        const todos = await Todo.find();
+        res.send({ todos });
+    } catch (e) {
+        res.status(500).end()
+    }
 };
 
 const getTodoWrapper: RequestHandler = async (req, res) => {
-    const todoid = req.params.id;
-    const todo = await Todo.findById(todoid);
+    try {
+        const todoid = req.params.id;
+        const todo = await Todo.findById(todoid);
 
-    res.send({ todo });
+        res.send({ todo });
+    } catch (e) {
+        res.status(500).end()
+    }
 }
 
 const updateTodoWrapper: RequestHandler = async (req, res) => {
-    const { title } = req.body;
-    const filter = { _id: req.params.id };
+    try {
+        const { title, isDone } = req.body;
+        const filter = { _id: req.params.id };
 
-    await Todo.findOneAndUpdate(filter, { title });
+        await Todo.findOneAndUpdate(filter, { title, isDone });
 
-    res.status(200).send({ message: 'Successfully Updated' }).end();
+        res.status(200).send({ message: 'Successfully Updated' }).end();
+    } catch (e) {
+        res.status(500).end()
+    }
 }
 
 const deleteTodoWrapper: RequestHandler = async (req, res) => {
-    const filter = { _id: req.params.id };
+    try {
+        const filter = { _id: req.params.id };
 
-    await Todo.deleteOne(filter);
+        await Todo.deleteOne(filter);
 
-    res.status(200).send({ message: 'Successfully deleted' }).end();
+        res.status(200).send({ message: 'Successfully deleted' }).end();
+    } catch (e) {
+        res.status(500).end()
+    }
 }
 
 export const newTodo = relogRequestHandler(addTodoWrapper, { validation: { body: addOrUpdateTodoSchema } });
